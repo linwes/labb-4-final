@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="startsida" content="width=device-width, initial-scale=1.0">
+    <title>användar uppgifter</title>
+</head>
+<body>
+    <div class="formulär">
+        <form method="post" action='http://localhost:5000/'>
+            <h1>Användar uppgifter</h1>
+            <ul>
+                <li>
+                    <label>Betalsätt:
+                    <select name="betala">
+                        <option value="-1">Välj betalsätt</option>
+                        <option value="1" >Kreditkort</option>
+                        <option value="1" >Swish</option>
+                        <option value="1" >faktura</option>
+                    </select>
+                </label>
+                </li>
+                <li>
+                    <label>
+                        Förnamn:
+                        <input type="text" name="fNamn" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        efternamn:
+                        <input type="text" name="efterNamn" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Lösenord:
+                        <input type="password" name="losenord" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Address:
+                        <input type="text" name="address" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Postnummer:
+                        <input type="number" name="postNummer" />
+                    </label>
+                                        <label>
+                        Ort:
+                        <input type="text" name="ort" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        Nummer:
+                        <input type="number" name="Nummer" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        epost:
+                        <input type="email" name="ePost"
+                    </label>
+                </li>
+                <li>
+                    <label>
+                    reklam: <input type="checkbox" name="erbjudande" value="Ja" />
+                </label>
+                </li>
+                <li>
+                    <p>Epost-format:
+                        <label>Html: <input type="radio" name="format" value="html" /></label>
+                        <label>Text: <input type="radio" name="format" value="text" /></label>
+                    </p>
+                
+                <label>
+                    Dina kommentarer:
+                    <textarea cols="20" rows="5" name="kommentar"></textarea>
+                </label>
+                
+            </ul>
+            <input type="submit" value="slutför" name="läggTillKnapp"/>
+        <form>
+    </div>
+<div class="svar-wrapper">
+    
+    <li><p>Namn: {{fNamn}}</p></li>
+    <li><p>Efternamn: {{efterNamn}} </p></li>
+    <li><p>Address: {{address}}</p></li>
+    <li><p>Lösenord: {{losenord}}</p></li>
+    <li><p>Postkod: {{postNummer}}</p></li>
+    <li><p>Ort: {{ort}}</p></li>
+    <li><p>Mobilnummer: {{Nummer}}</p></li>
+    <li><p>E-post: {{ePost}}</p></li>
+    <li><p>Betalsätt: {{betala}}</p></li>
+    <li><p>Reklam: {{erbjudande}}</p></li>
+    <li><p>Epost format: {{format}}</p></li>
+    <li><p>Kommentar: {{kommentar}}</p></li>
+    
+<script>
+    const sendData = async (url = '', data = {}) => {
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            body: JSON.stringify(data)
+        });
+        return await response.json(); 
+    }
+
+    document.querySelector('.submit').addEventListener('click', (e) => {
+        const form = document.querySelector('form');
+        const postData = Object.values(form).reduce((obj,field) => { obj[field.name] = field.value; return obj }, {});
+        console.log(postData);
+        sendData('http://localhost:5000/', postData)
+            .then((data) => {
+            console.log(data);
+        });
+        return false;
+    });
+</script>    
+</body>
+</html>
